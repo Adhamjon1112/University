@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Welcome, {{ user.get_full_name }}!</h1>
+
+<a href="{% url 'logout' %}">Logout</a>
+
+<img src="{% static 'i.webp' %}" alt="">
+{% endblock content %}
