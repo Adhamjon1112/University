@@ -3,38 +3,26 @@ from django.contrib.auth import login, logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 
-from .forms import UserRegistrationForm
+from .forms import UserForm
 User = get_user_model()
 
 
 def user_registration(request):
 
     if request.method == 'POST':
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
+        form = UserForm(request.POST)
 
-        try:
-            user = User.objects.get(email=email)
-        except:
-            user = None
+        if form.is_valid():
 
-        if password1 == password2 and not user:
-            user = User.objects.create_user(
-                first_name=first_name,
-                last_name=last_name,
-                username=username,
-                email=email,
-            )
-            user.set_password(password2)
-            user.save()
-            return redirect('login')
+            if request.POST.get('password1') == request.POST.get('password2'):
+                user = form.save(commit=False)
+                user.set_password(request.POST.get('password1'))
+                user.save()
+                return redirect('login')
 
 
-    form = UserRegistrationForm()
+
+    form = UserForm()
     context = {
         'form': form
     }
