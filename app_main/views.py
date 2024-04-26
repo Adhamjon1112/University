@@ -4,6 +4,8 @@ from django.http import Http404
 
 from .forms import UserForm
 
+from app_users.forms import StudentForm
+from app_users.models import Hobby, Student
 
 User = get_user_model()
 
@@ -99,3 +101,47 @@ def students_list(request, id):
         'teacher': teacher,
     }
     return render(request, 'app_main/students.html', context)
+
+def student_create(request, teacher_id):
+
+    if request.method == 'POST':
+        teacher = get_object_or_404(User, id=teacher_id)
+        form = StudentForm(request.POST)
+        hobbies_list = request.POST.get('hobbies')  # ['1', '3', '5']
+  
+        if form.is_valid():
+            student = form.save(commit=False)
+            student.teacher = teacher
+
+            for hobby_id in hobbies_list:
+                hobby = Hobby.objects.get(id=hobby_id)
+                # print(hobby)
+                # student.hobbies.add(int(hobby_id))
+                # student.save()
+
+
+            return redirect('teacher_students', id=teacher_id)
+
+    # How to check some hobby in students hobbies list ? 
+    
+
+    form = StudentForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'app_main/new_student.html', context)
+
+
+def hobby_students(request, hobby_id):
+    hobby = get_object_or_404(User, id=hobby_id)
+    filtered_students = []
+
+    for student in Student.objects.all():
+        if hobby in student.hobbies.all():
+            filtered_students.append(student)
+    print(filtered_students, hobby)
+    context = {
+        'hobby': hobby, 
+        'filtered_student': filtered_students,
+    }
+    return render(request, 'app_main/filtered_students.html', context)
