@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3 class="text-left w-full my-5 text-2xl"> {{ student }} ma`lumotlari :</h3>
+    <p>First_name: {{ student.first_name }}</p>
+    <p>Last_name: {{ student.last_name }}</p>
+    <p>Teacher: {{ student.teacher }}</p>
+    <p>Teacher_email: {{ student.teacher.email }}</p>
+    <p>Hobby:
+        {% if student.hobbies.all %}
+            {% for hobby in student.hobbies.all %}
+                {{ hobby.name }},
+            {% endfor %}
+        {% else %}
+            hobbysi yo`q
+        {% endif %}
+    </p>
+
+{% endblock content %}
