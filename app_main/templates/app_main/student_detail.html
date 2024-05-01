@@ -2,19 +2,21 @@
 
 {% block content %}
 
-    <h3 class="text-left w-full my-5 text-2xl"> {{ student }} ma`lumotlari :</h3>
-    <p>First_name: {{ student.first_name }}</p>
-    <p>Last_name: {{ student.last_name }}</p>
-    <p>Teacher: {{ student.teacher }}</p>
-    <p>Teacher_email: {{ student.teacher.email }}</p>
+<div class="max-w-lg mx-auto">
+    <h3 class="text-left my-5 text-2xl"> {{ student }} ma`lumotlari :</h3>
+    <p>First_name: <span class="font-semibold">{{ student.first_name }}</span></p>
+    <p>Last_name: <span class="font-semibold">{{ student.last_name }}</span></p>
+    <p>Teacher: <span class="font-semibold">{{ student.teacher }}</span></p>
+    <p>Teacher_email: <span class="font-semibold">{{ student.teacher.email }}</span></p>
     <p>Hobby:
         {% if student.hobbies.all %}
             {% for hobby in student.hobbies.all %}
-                {{ hobby.name }},
+                <span class="font-semibold">{{ hobby.name }}</span>,
             {% endfor %}
         {% else %}
-            hobbysi yo`q
+            <span class="text-red-500">hobbysi yo`q</span>
         {% endif %}
     </p>
+</div>
 
 {% endblock content %}

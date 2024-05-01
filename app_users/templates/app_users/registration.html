@@ -1,9 +1,28 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Ro'yxatdan o'tish</button>
-</form>
-{% endblock content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student management</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="w-[400px] bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form action="" method="post">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                {{ form.as_p }}
+            </div>
+            
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full transition duration-200">
+                Ro'yxatdan o'tish
+            </button>
+        </form>
+    </div>
+    
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

@@ -175,6 +175,7 @@ def student_detail(request, student_id):
     }
     return render(request, 'app_main/student_detail.html', context)
 
+
 def student_delete(request, student_id):
     student = get_object_or_404(Student, id=student_id)
 

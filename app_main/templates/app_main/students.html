@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="w-full flex flex-row justify-between items-center">
-        <a href="{% url 'teachers' %}" class="border border-slate-500 rounded py-2 px-4 text-slate-500 inline-block mt-5 ms-5 hover:text-white hover:bg-slate-500 transition duration-200">Orqaga</a>
+        <a href="{% url 'teachers' %}" class="border border-slate-500 rounded py-2 px-4 text-slate-500 inline-block mt-5 hover:text-white hover:bg-slate-500 transition duration-200">Orqaga</a>
         <a href="{% url 'student_create' teacher_id=teacher.id %}" class="border border-green-600 rounded py-2 px-4 text-green-600 inline-block mt-5 ms-5 hover:text-white w-[300px] text-center hover:bg-green-600 transition duration-200">New student</a>
     </div>
 
@@ -14,30 +14,24 @@
                 <tr class="border border-s-0 border-t-0 border-e-0 border-slate-500">
                     <th class="p-4">#</th>
                     <th class="p-4 border border-t-0 border-b-0 border-slate-500">Full name</th>
-                    <th class="p-4">Book</th>
-                    <th class="p-4 border border-t-0 border-b-0 border-e-0 border-slate-500">Hobbies</th>
-                    <th class="p-4 border border-t-0 border-b-0 border-e-0 border-slate-500">
-                        Update/Delete
-                    </th>
+                    <th class="p-4 border border-t-0 border-b-0 border-slate-500">Book</th>
+                    <th class="p-4 border border-t-0 border-b-0 border-slate-500">Hobbies</th>
+                    <th class="p-4 border border-t-0 border-b-0 border-e-0 border-slate-500">Update/Delete</th>
                 </tr>
             </thead>
             <tbody>
                 {% for student in students %}
                     <tr class="border border-s-0 border-t-0 border-e-0 border-slate-500">
-                        <th class="p-4">{{ forloop.counter }}</th>
-                        <td class="p-4 border border-t-0 border-b-0 border-slate-500">
-                            <a href="{% url 'student_detail' student_id=student.id %}" class="hover:underline">{{ student }}</a>
-                        </td>
+                        <td class="p-4">{{ forloop.counter }}</td>
+                        <td class="p-4 border border-t-0 border-b-0 border-slate-500"><a href="{% url 'student_detail' student_id=student.id %}" class="hover:underline">{{ student }}</a></td>
                         <td class="p-4">
-                        
-
                             {% if student.book %}
                                 {{ student.book.title }}
                             {% else %}
                                 -
                             {% endif %}
                         </td>
-                        <td class="p-4">
+                        <td class="p-4 border border-t-0 border-b-0 border-slate-500">
                             {% for hobby in student.hobbies.all|slice:"3" %}
                                 <a href="{% url 'filter_students' hobby_id=hobby.id %}" class="inline-block hover:ring-2 border rounded border-white text-white py-1 px-2 bg-purple-600">{{ hobby.name|truncatechars:"10" }}</a>
                             {% empty %}
@@ -45,13 +39,14 @@
                             {% endfor %}
                         </td>
                         <td class="p-4 border border-t-0 border-b-0 border-e-0 border-slate-500 flex flex-row gap-2">
-                           <a href="{% url 'student_update' student_id=student.id %}" class="inline-block border border-yellow-600 rounded py-1 px-2 text-yellow-600 hover:bg-yellow-600 hover:text-white transition duration-200">Update</a>
-                           <a href="{% url 'student_delete' student_id=student.id %}" class="inline-block border border-red-600 rounded py-1 px-2 text-red-600 hover:bg-red-600 hover:text-white transition duration-200">Delete</a>
+                            <a href="{% url 'student_update' student_id=student.id %}" class="inline-block border border-yellow-600 rounded py-1 px-2 text-yellow-600 hover:bg-yellow-600 hover:text-white transition duration-200">Update</a>
+                            <a href="{% url 'student_delete' student_id=student.id %}" class="inline-block border border-red-600 rounded py-1 px-2 text-red-600 hover:bg-red-600 hover:text-white transition duration-200">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    
 
 {% endblock content %}
