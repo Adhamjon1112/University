@@ -16,4 +16,6 @@ urlpatterns = [
     path('filtered-students/<int:hobby_id>/', views.filter_students, name='filter_students'),
     path('student/<uuid:student_id>/', views.student_detail, name='student_detail'),
     path('student/delete/<uuid:student_id>/', views.student_delete, name='student_delete'),
+
+    path('student/book/create/<uuid:student_id>', views.book_create, name='book_create')
 ]

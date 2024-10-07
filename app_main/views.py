@@ -2,9 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.http import Http404
 
-from .forms import UserForm
-
-from app_users.forms import StudentForm
+from app_users.forms import UserForm, StudentForm, BookForm
 from app_users.models import Hobby, Student
 
 User = get_user_model()
@@ -100,31 +98,28 @@ def students_list(request, id):
     return render(request, 'app_main/students.html', context)
 
 def student_create(request, teacher_id):
-
+    teacher = get_object_or_404(User, id=teacher_id)
+    
     if request.method == 'POST':
-        teacher = get_object_or_404(User, id=teacher_id)
         form = StudentForm(request.POST)
-        hobbies_list = request.POST.get('hobbies')  # ['1', '3', '5']
-  
+        form.fields.pop('hobbies', None)
+
         if form.is_valid():
             student = form.save(commit=False)
             student.teacher = teacher
-
-            for hobby_id in hobbies_list:
-                hobby = Hobby.objects.get(id=hobby_id)
-                # print(hobby)
-                # student.hobbies.add(int(hobby_id))
-                # student.save()
-
-
+            student.save()
+            
             return redirect('teacher_students', id=teacher_id)
 
 
     form = StudentForm()
+    form.fields.pop('hobbies', None)
+
     context = {
         'form': form,
         'btn_text': 'Create student',
-        'btn_color': 'green-600'
+        'btn_color': 'green-600',
+        'title': 'New student',
     }
     return render(request, 'app_main/student_form.html', context)
 
@@ -181,4 +176,21 @@ def student_delete(request, student_id):
 
     student.delete()
     return redirect('teacher_students', id=student.teacher.id)  
+
+def book_create(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
     
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+
+        if form.is_valid():
+            book = form.save(commit=False)  
+            book.student = student  
+            book.save()
+            return redirect('teacher_students', id=student.teacher.id)
+
+    form = BookForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'app_main/book_create.html', context)

@@ -2,19 +2,17 @@
 
 {% block content %}
 <div class="flex justify-center items-center h-full">
-    <form action="" method="post" class="w-[400px] bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <form action="" method="post" class="w-full max-w-[400px]">
         {% csrf_token %}
-        
+
         {% for field in form %}
             <div class="mb-4">
-                <label for="{{ field.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ field.label }}</label>
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
                 {{ field }}
             </div>
         {% endfor %}
 
-        <button type="submit" class="bg-{{ btn_color }} hover:bg-{{ btn_color }}-700 text-white font-bold py-2 px-4 rounded-full w-full transition duration-200">
-            {{ btn_text }}
-        </button>
+        <button type="submit" class="mt-5 w-full bg-{{ btn_color }} hover:bg-{{ btn_color }}-700 text-white font-semibold py-2 px-4 rounded transition duration-200">{{ btn_text }}</button>
     </form>
 </div>
 {% endblock content %}
